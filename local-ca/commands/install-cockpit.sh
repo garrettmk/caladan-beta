@@ -4,6 +4,12 @@ set -e
 
 PREFIX="cockpit.caladan.home"
 
+# Check that cockpit is installed
+if [ -z "$(dnf list --installed | grep cockpit-ws)" ]; then
+  echo "cockpit-ws not installed, skipping $PREFIX"
+  exit 0
+fi
+
 # Create the private key and certificate
 commands/make-signed-cert.sh $PREFIX
 
