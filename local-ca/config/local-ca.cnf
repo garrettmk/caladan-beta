@@ -10,10 +10,5 @@ ST = "Oregon"
 L = "Bend"
 O = "Myrick Home"
 OU = "Department of Authenticity"
+CN = "Myrick Home CA"
 emailAddress = "admin@myrick.home"
-
-[req_ext]
-subjectAltName = @alt_names
-
-[alt_names]
-DNS.1 = local-ca.caladan.home

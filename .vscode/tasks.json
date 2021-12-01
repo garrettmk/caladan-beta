@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "local-ca: install CA",
+      "label": "local-ca: install",
       "type": "shell",
       "command": "sudo commands/install.sh",
       "options": {
@@ -12,25 +12,9 @@
       }
     },
     {
-      "label": "local-ca: uninstall CA",
+      "label": "local-ca: uninstall",
       "type": "shell",
       "command": "sudo commands/uninstall.sh",
-      "options": {
-        "cwd": "${workspaceFolder}/local-ca"
-      }
-    },
-    {
-      "label": "local-ca: install CA certificate",
-      "type": "shell",
-      "command": "sudo commands/install-ca-cert.sh",
-      "options": {
-        "cwd": "${workspaceFolder}/local-ca"
-      }
-    },
-    {
-      "label": "local-ca: run command",
-      "type": "shell",
-      "command": "sudo commands/run-in-container.sh ${input:command}",
       "options": {
         "cwd": "${workspaceFolder}/local-ca"
       }
@@ -38,26 +22,6 @@
   ],
 
   "inputs": [
-    {
-      "id": "flags",
-      "type": "promptString",
-      "description": "Podman flags",
-      "default": "-it"
-    },
-    {
-      "id": "command",
-      "type": "pickString",
-      "description": "Choose a command",
-      "options": [
-        "create-signed-cert",
-        "create-p12",
-        "create-user-cert",
-        "create-ca-cert",
-        "busy",
-        "/bin/sh"
-      ],
-      "default": "busy"
-    },
     {
       "id": "certFilesName",
       "type": "promptString",

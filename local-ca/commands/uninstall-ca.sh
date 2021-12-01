@@ -1,19 +1,18 @@
 #!/bin/bash
 source ./env.sh
 
-# Remove the podman container
-echo "Removing container..."
-podman container rm -f $LOCAL_CA_CONTAINER_NAME
+# Remove CA certificate
+echo "Removing CA certificate..."
+rm -f $LOCAL_CA_FOLDER_CRT/$LOCAL_CA_NAME.crt
+rm -f $LOCAL_CA_FOLDER_CA/$LOCAL_CA_NAME.crt
 
-# Remove the container volumes
-echo "Removing config volume..."
-podman volume rm -f $LOCAL_CA_VOLUME_CONFIG
+# Remove CA private key
+echo "Removing CA private key..."
+rm -f $LOCAL_CA_FOLDER_KEY/$LOCAL_CA_NAME.key
 
-echo "Removing data volume..."
-podman volume rm -f $LOCAL_CA_VOLUME_DATA
+# Update trust store
+echo "Updating host..."
+update-ca-trust
 
-# Remove the container image
-echo "Removing container image..."
-podman image rm -f $LOCAL_CA_CONTAINER_NAME
-
+# All done
 echo "Done"
