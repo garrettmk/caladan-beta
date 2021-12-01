@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Create the CA private key 
+if [ ! -f "/data/$LOCAL_CA_NAME.key" ]; then
+  echo "Creating CA private key..."
+  openssl genrsa \
+    -aes256 \
+    -out /data/$LOCAL_CA_NAME.key \
+    4096 || exit 1
+
+  # Make the CA key read-only and private
+  chmod 0400 /data/$LOCAL_CA_NAME.key
+fi
+
+# Generate a self-signed CA certificate
+if [ ! -f "/data/$LOCAL_CA_NAME.crt" ]; then
+  echo "Creating CA certificate..."
+  openssl req \
+    -x509                     `# Create a self-signed certificate, not a request` \
+    -nodes                    `# Don't encrypt private keys` \
+    -sha512                   `# Use SHA512 message digest to sign` \
+    -days 365                 `# Make valid for 1 year` \
+    -key /data/$LOCAL_CA_NAME.key         `# Sign with the key we just generated` \
+    -config /config/ca.cnf    `# Use the CA config file` \
+    -out /data/$LOCAL_CA_NAME.crt         `# Output to ca.crt` \
+    -verbose                  `# Talk to me baby` \
+    || exit 1
+
+  # Make the certificate read-only
+  chmod 444 /data/$LOCAL_CA_NAME.crt
+else
+  echo "CA certificate already exists"
+fi

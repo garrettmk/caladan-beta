@@ -1,0 +1,19 @@
+# Config file for local CA
+[req]
+distinguished_name  = req_distinguished_name
+prompt              = no
+output_password     = SuperSecretCA
+
+[req_distinguished_name]
+C = "US"
+ST = "Oregon"
+L = "Bend"
+O = "Myrick Home"
+OU = "Department of Authenticity"
+emailAddress = "admin@myrick.home"
+
+[req_ext]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = local-ca.caladan.home
