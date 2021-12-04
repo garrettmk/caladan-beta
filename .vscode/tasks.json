@@ -6,33 +6,22 @@
     {
       "label": "local-ca: install",
       "type": "shell",
-      "command": "sudo commands/install.sh",
-      "options": {
-        "cwd": "${workspaceFolder}/local-ca"
-      }
+      "command": "sudo local-ca/commands/install.sh",
     },
     {
       "label": "local-ca: uninstall",
       "type": "shell",
-      "command": "sudo commands/uninstall.sh",
-      "options": {
-        "cwd": "${workspaceFolder}/local-ca"
-      }
-    },
-  ],
-
-  "inputs": [
-    {
-      "id": "certFilesName",
-      "type": "promptString",
-      "description": "Name prefix for cert files",
-      "default": "example.caladan.home",
+      "command": "sudo local-ca/commands/uninstall.sh",
     },
     {
-      "id": "copyToDirectory",
-      "type": "promptString",
-      "description": "Copy files to directory",
-      "default": "./"
+      "label": "grafana: install",
+      "type": "shell",
+      "command": "sudo grafana/commands/install.sh",
+    },
+    {
+      "label": "grafana: uninstall",
+      "type": "shell",
+      "command": "sudo grafana/commands/uninstall.sh",
     }
-  ]
+  ],
 }

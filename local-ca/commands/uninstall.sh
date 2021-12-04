@@ -2,8 +2,6 @@
 source ./env.sh
 
 # Uninstall scripts
-commands/uninstall-cockpit.sh
-commands/uninstall-caladan.sh
 commands/uninstall-ca.sh
 
 # If the keys directory is empty, delete it

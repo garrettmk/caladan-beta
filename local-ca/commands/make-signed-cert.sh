@@ -3,10 +3,17 @@ source ./env.sh
 set -e
 
 PREFIX=$1
+CONFIG=$2 || "local-ca/config/${PREFIX}.ssl.cnf"
+
+# Make sure the config file exists
+if [ ! -f $CONFIG ]; then
+  echo "Certificate config file ${CONFIG} not found."
+  exit 1
+fi
 
 # Generate the private key
 if [ ! -f "$LOCAL_CA_FOLDER_KEY/$PREFIX.key" ]; then
-  echo "Create $PREFIX.key..."
+  echo "Creating $PREFIX.key..."
   openssl genrsa \
     -out $LOCAL_CA_FOLDER_KEY/$PREFIX.key \
     2048
@@ -23,7 +30,7 @@ openssl req \
   -new \
   -nodes \
   -key $LOCAL_CA_FOLDER_KEY/$PREFIX.key \
-  -config config/$PREFIX.cnf \
+  -config $CONFIG \
   -out /tmp/$PREFIX.csr
 
 echo "Creating signed certificate..."
@@ -34,7 +41,7 @@ openssl x509 \
   -CAkey $LOCAL_CA_FOLDER_KEY/$LOCAL_CA_NAME.key \
   -CAcreateserial \
   -in /tmp/$PREFIX.csr \
-  -extfile config/$PREFIX.cnf \
+  -extfile $CONFIG \
   -out $LOCAL_CA_FOLDER_CRT/$PREFIX.crt \
   -days 365 \
   -extensions v3_req

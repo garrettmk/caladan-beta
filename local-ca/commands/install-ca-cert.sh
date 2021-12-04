@@ -19,21 +19,20 @@ fi
 # Generate a self-signed CA certificate
 echo "Creating CA certificate..."
 openssl req \
-  -x509                     `# Create a self-signed certificate, not a request` \
-  -nodes                    `# Don't encrypt private keys` \
-  -sha512                   `# Use SHA512 message digest to sign` \
-  -days 365                 `# Make valid for 1 year` \
-  -config config/$LOCAL_CA_NAME.cnf    `# Use the CA config file` \
-  -key $LOCAL_CA_FOLDER_KEY/$LOCAL_CA_NAME.key         `# Sign with the key we just generated` \
-  -out $LOCAL_CA_FOLDER_CRT/$LOCAL_CA_NAME.crt         `# Output to ca.crt` \
-  -verbose                  `# Talk to me baby` \
+  -x509 \
+  -nodes \
+  -sha512 \
+  -days 365 \
+  -config local-ca/config/$LOCAL_CA_NAME.ssl.cnf \
+  -key $LOCAL_CA_FOLDER_KEY/$LOCAL_CA_NAME.key \
+  -out $LOCAL_CA_FOLDER_CRT/$LOCAL_CA_NAME.crt \
   || exit 1
 
 # Make the certificate read-only
 chmod 444 $LOCAL_CA_FOLDER_CRT/$LOCAL_CA_NAME.crt
 
 # Update the host trust store
-echo "Update trust store..."
+echo "Updating trust store..."
 cp $LOCAL_CA_FOLDER_CRT/$LOCAL_CA_NAME.crt $LOCAL_CA_FOLDER_CA/
 update-ca-trust
 

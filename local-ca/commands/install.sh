@@ -4,7 +4,7 @@ source ./env.sh
 
 # Install dependencies
 echo "Installing dependencies..."
-dnf install nss-tools
+dnf install -y nss-tools
 
 # Make sure the private key directory exists
 if [ ! -d "$LOCAL_CA_FOLDER_KEY" ]; then
@@ -16,6 +16,4 @@ else
 fi
 
 # Install scripts
-commands/install-ca.sh
-commands/install-caladan.sh
-commands/install-cockpit.sh
+local-ca/commands/install-ca-cert.sh
