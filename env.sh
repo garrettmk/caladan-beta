@@ -44,3 +44,14 @@ export GRAFANA_HOST_DOMAIN=${GRAFANA_NAME}.${HOST_DOMAIN}
 export GRAFANA_SERVICE="container-${GRAFANA_NAME}.service"
 export GRAFANA_VOLUME_CONFIG="${GRAFANA_NAME}-config"
 export GRAFANA_VOLUME_DATA="${GRAFANA_NAME}-data"
+
+
+#####################################
+## Portainer
+
+export PORTAINER_NAME="portainer"
+export PORTAINER_NETWORK="admin"
+export PORTAINER_DOMAIN="${PORTAINER_NAME}.${PORTAINER_NETWORK}.${HOST_DOMAIN}"
+export PORTAINER_HOST_DOMAIN=${PORTAINER_NAME}.${HOST_DOMAIN}
+export PORTAINER_SERVICE="container-${PORTAINER_NAME}.service"
+export PORTAINER_VOLUME_DATA="portainer-data"
