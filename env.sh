@@ -5,7 +5,8 @@
 ## Host settings
 
 export HOST_DOMAIN="caladan.home"
-
+export HOST_STATIC_IP="192.168.0.11"
+export HOST_TZ="America/Los_Angeles"
 
 ######################################
 ## Local CA
@@ -52,6 +53,18 @@ export GRAFANA_VOLUME_DATA="${GRAFANA_NAME}-data"
 export PORTAINER_NAME="portainer"
 export PORTAINER_NETWORK="admin"
 export PORTAINER_DOMAIN="${PORTAINER_NAME}.${PORTAINER_NETWORK}.${HOST_DOMAIN}"
-export PORTAINER_HOST_DOMAIN=${PORTAINER_NAME}.${HOST_DOMAIN}
+export PORTAINER_HOST_DOMAIN="${PORTAINER_NAME}.${HOST_DOMAIN}"
 export PORTAINER_SERVICE="container-${PORTAINER_NAME}.service"
 export PORTAINER_VOLUME_DATA="portainer-data"
+
+
+#####################################
+## Pihole
+
+export PIHOLE_NAME="pihole"
+export PIHOLE_NETWORK="admin"
+export PIHOLE_DOMAIN="${PIHOLE_NAME}.${PIHOLE_NETWORK}.${HOST_DOMAIN}"
+export PIHOLE_HOST_DOMAIN="${PIHOLE_NAME}.${HOST_DOMAIN}"
+export PIHOLE_SERVICE="container-${PIHOLE_NAME}.service"
+export PIHOLE_VOLUME_DATA="pihole-data"
+export PIHOLE_PASSWORD="foofoo"

@@ -9,8 +9,8 @@ C = "US"
 ST = "Oregon"
 L = "Bend"
 O = "Myrick Home"
-OU = "Department of Administration"
-CN = "caladan.home"
+OU = "Department of Resolution"
+CN = "pihole.admin.caladan.home"
 emailAddress = "admin@myrick.home"
 
 [v3_req]
@@ -19,8 +19,4 @@ extendedKeyUsage = serverAuth, clientAuth
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = caladan.home
-DNS.2 = cockpit.caladan.home
-DNS.3 = grafana.caladan.home
-DNS.4 = portainer.caladan.home
-DNS.5 = pihole.caladan.home
+DNS.1 = pihole.admin.caladan.home
