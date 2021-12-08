@@ -8,7 +8,7 @@ echo "Configuring container..."
 podman create \
   --replace \
   --name ${QBITTORRENT_NAME} \
-  --network container:${MULLVAD_NAME} \
+  --network ${QBITTORRENT_NETWORK} \
   --env PUID=${QBITTORRENT_UID} \
   --env PGID=${QBITTORRENT_GID} \
   --env UMASK=022 \
