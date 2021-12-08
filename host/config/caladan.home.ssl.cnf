@@ -24,3 +24,7 @@ DNS.2 = cockpit.caladan.home
 DNS.3 = grafana.caladan.home
 DNS.4 = portainer.caladan.home
 DNS.5 = pihole.caladan.home
+DNS.6 = qbittorrent.caladan.home
+DNS.7 = jellyfin.caladan.home
+DNS.8 = radarr.caladan.home
+DNS.9 = sonarr.caladan.home

@@ -1,6 +1,5 @@
 #!/bin/bash
 source ./env.sh
-set -e
 
 NETWORK_NAME=$1
 NETWORK_DOMAIN=${NETWORK_NAME}.${HOST_DOMAIN}

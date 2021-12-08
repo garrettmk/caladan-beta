@@ -55,7 +55,7 @@ export PORTAINER_NETWORK="admin"
 export PORTAINER_DOMAIN="${PORTAINER_NAME}.${PORTAINER_NETWORK}.${HOST_DOMAIN}"
 export PORTAINER_HOST_DOMAIN="${PORTAINER_NAME}.${HOST_DOMAIN}"
 export PORTAINER_SERVICE="container-${PORTAINER_NAME}.service"
-export PORTAINER_VOLUME_DATA="portainer-data"
+export PORTAINER_VOLUME_DATA="${PORTAINER_NAME}-data"
 
 
 #####################################
@@ -66,5 +66,55 @@ export PIHOLE_NETWORK="admin"
 export PIHOLE_DOMAIN="${PIHOLE_NAME}.${PIHOLE_NETWORK}.${HOST_DOMAIN}"
 export PIHOLE_HOST_DOMAIN="${PIHOLE_NAME}.${HOST_DOMAIN}"
 export PIHOLE_SERVICE="container-${PIHOLE_NAME}.service"
-export PIHOLE_VOLUME_DATA="pihole-data"
+export PIHOLE_VOLUME_DATA="${PIHOLE_NAME}-data"
 export PIHOLE_PASSWORD="foofoo"
+
+
+####################################
+## Mullvad VPN
+
+export MULLVAD_NAME="mullvad-vpn"
+export MULLVAD_NETWORK="arrr"
+export MULLVAD_VOLUME_DATA="${MULLVAD_NAME}-data"
+export MULLVAD_SERVICE="container-${MULLVAD_NAME}.service"
+export MULLVAD_CONFIG="linux_us_all"
+
+
+#####################################
+## Media variables
+
+export MEDIA_ROOT_DIR_HOST="/mnt/volumes/media"
+export MEDIA_ROOT_DIR_CONT="/media"
+
+export MEDIA_DOWNLOADS_DIR="downloads"
+export MEDIA_MOVIES_DIR="library/movies"
+export MEDIA_SHOWS_DIR="library/shows"
+
+if [ -z $(cat /etc/group | grep "media" | awk -F\: '{print $3}') ]; then
+  groupadd media
+fi
+
+export MEDIA_GROUP_ID=$(cat /etc/group | grep "media" | awk -F\: '{print $3}')
+
+
+#####################################
+## qBittorrent
+
+
+export QBITTORRENT_NAME="qbittorrent"
+
+id ${QBITTORRENT_NAME}
+if [ $? != 0 ]; then
+  useradd -M -N -s /dev/null -G media ${QBITTORRENT_NAME}
+fi
+
+export QBITTORRENT_NETWORK=${MULLVAD_NETWORK}
+export QBITTORRENT_VOLUME_CONFIG="${QBITTORRENT_NAME}-config"
+export QBITTORRENT_VOLUME_DOWNLOADS_HOST="${MEDIA_ROOT_DIR_HOST}/${MEDIA_DOWNLOADS_DIR}"
+export QBITTORRENT_VOLUME_DOWNLOADS_CONT="${MEDIA_ROOT_DIR_CONT}/${MEDIA_DOWNLOADS_DIR}"
+export QBITTORRENT_SERVICE="container-${QBITTORRENT_NAME}.service"
+export QBITTORRENT_HOST_DOMAIN="${QBITTORRENT_NAME}.${HOST_DOMAIN}"
+# export QBITTORRENT_DOMAIN="${QBITTORRENT_NAME}.${QBITTORRENT_NETWORK}.${HOST_DOMAIN}"
+export QBITTORRENT_DOMAIN="${MULLVAD_NAME}.${MULLVAD_NETWORK}.${HOST_DOMAIN}"
+export QBITTORRENT_UID=$(id -u ${QBITTORRENT_NAME})
+export QBITTORRENT_GID=${MEDIA_GROUP_ID}
