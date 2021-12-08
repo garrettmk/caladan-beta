@@ -4,6 +4,20 @@ source ./env.sh
 NETWORK_NAME=$1
 NETWORK_DOMAIN=${NETWORK_NAME}.${HOST_DOMAIN}
 
+# If the network is a container, just check and make sure it exists
+if [[ $NETWORK_NAME =~ ^container:.* ]]; then
+  SPLIT_NAME=(${NETWORK_NAME//:/ })
+  CONTAINER_NAME=${SPLIT_NAME[1]}
+
+  podman container exists ${CONTAINER_NAME}
+  if [ $? != 0 ]; then
+    echo "Container network ${CONTAINER_NAME} does not exist."
+    exit 1
+  fi
+
+  exit 0
+fi
+
 # Create the network if it doesn't already exist
 podman network exists ${NETWORK_NAME}
 if [ $? == 1 ]; then
