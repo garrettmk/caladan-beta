@@ -118,3 +118,22 @@ export QBITTORRENT_HOST_DOMAIN="${QBITTORRENT_NAME}.${HOST_DOMAIN}"
 export QBITTORRENT_DOMAIN="${MULLVAD_NAME}.${MULLVAD_NETWORK}.${HOST_DOMAIN}"
 export QBITTORRENT_UID=$(id -u ${QBITTORRENT_NAME})
 export QBITTORRENT_GID=${MEDIA_GROUP_ID}
+
+
+######################################
+## Jellyfin
+
+export JELLYFIN_NAME="jellyfin"
+id ${JELLYFIN_NAME}
+if [ $? != 0 ]; then
+  useradd -M -N -s /dev/null -G media ${JELLYFIN_NAME}
+fi
+
+export JELLYFIN_NETWORK="media"
+export JELLYFIN_VOLUME_CONFIG="${JELLYFIN_NAME}-config"
+export JELLYFIN_VOLUME_MEDIA="${MEDIA_ROOT_DIR_HOST}/library"
+export JELLYFIN_UID=$(id -u ${JELLYFIN_NAME})
+export JELLYFIN_GID=${MEDIA_GROUP_ID}
+export JELLYFIN_DOMAIN="${JELLYFIN_NAME}.${JELLYFIN_NETWORK}.${HOST_DOMAIN}"
+export JELLYFIN_HOST_DOMAIN="${JELLYFIN_NAME}.${HOST_DOMAIN}"
+export JELLYFIN_SERVICE="container-${JELLYFIN_NAME}.service"
