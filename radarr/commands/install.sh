@@ -17,6 +17,7 @@ podman create \
   --network ${RADARR_NETWORK} \
   --volume ${RADARR_VOLUME_CONFIG}:/config:Z \
   --volume ${RADARR_VOLUME_MEDIA_HOST}:${RADARR_VOLUME_MEDIA_CONT}:z \
+  --volume ${RADARR_VOLUME_DOWNLOADS_HOST}:${RADARR_VOLUME_DOWNLOADS_CONT}:z \
   --env PUID=${RADARR_UID} \
   --env PGID=${RADARR_GID} \
   --env UMASK=022 \

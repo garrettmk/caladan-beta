@@ -17,6 +17,7 @@ podman create \
   --network ${SONARR_NETWORK} \
   --volume ${SONARR_VOLUME_CONFIG}:/config:Z \
   --volume ${SONARR_VOLUME_MEDIA_HOST}:${SONARR_VOLUME_MEDIA_CONT}:z \
+  --volume ${SONARR_VOLUME_DOWNLOADS_HOST}:${SONARR_VOLUME_DOWNLOADS_CONT}:z \
   --env PUID=${SONARR_UID} \
   --env PGID=${SONARR_GID} \
   --env UMASK=022 \
