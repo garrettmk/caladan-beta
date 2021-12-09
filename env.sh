@@ -156,3 +156,42 @@ export RADARR_GID=${MEDIA_GROUP_ID}
 export RADARR_DOMAIN="${MULLVAD_NAME}.${MULLVAD_NETWORK}.${HOST_DOMAIN}"
 export RADARR_HOST_DOMAIN="${RADARR_NAME}.${HOST_DOMAIN}"
 export RADARR_SERVICE="container-${RADARR_NAME}.service"
+
+
+######################################
+## Sonarr
+
+export SONARR_NAME="sonarr"
+id ${SONARR_NAME}
+if [ $? != 0 ]; then
+  useradd -M -N -s /dev/null -G media ${SONARR_NAME}
+fi
+
+export SONARR_NETWORK="container:${MULLVAD_NAME}"
+export SONARR_VOLUME_CONFIG="${SONARR_NAME}-config"
+export SONARR_VOLUME_MEDIA_HOST="${MEDIA_ROOT_DIR_HOST}/${MEDIA_SHOWS_DIR}"
+export SONARR_VOLUME_MEDIA_CONT="${MEDIA_ROOT_DIR_CONT}/${MEDIA_SHOWS_DIR}"
+export SONARR_UID=$(id -u ${SONARR_NAME})
+export SONARR_GID=${MEDIA_GROUP_ID}
+export SONARR_DOMAIN="${MULLVAD_NAME}.${MULLVAD_NETWORK}.${HOST_DOMAIN}"
+export SONARR_HOST_DOMAIN="${SONARR_NAME}.${HOST_DOMAIN}"
+export SONARR_SERVICE="container-${SONARR_NAME}.service"
+
+
+######################################
+## Jackett
+
+export JACKETT_NAME="jackett"
+id ${JACKETT_NAME}
+if [ $? != 0 ]; then
+  useradd -M -N -s /dev/null -G media ${JACKETT_NAME}
+fi
+
+export JACKETT_NETWORK="container:${MULLVAD_NAME}"
+export JACKETT_VOLUME_CONFIG="${JACKETT_NAME}-config"
+export JACKETT_VOLUME_DOWNLOADS_HOST="${MEDIA_ROOT_DIR_HOST}/${MEDIA_DOWNLOADS_DIR}"
+export JACKETT_UID=$(id -u ${JACKETT_NAME})
+export JACKETT_GID=${MEDIA_GROUP_ID}
+export JACKETT_DOMAIN="${MULLVAD_NAME}.${MULLVAD_NETWORK}.${HOST_DOMAIN}"
+ export JACKETT_HOST_DOMAIN="${JACKETT_NAME}.${HOST_DOMAIN}"
+export JACKETT_SERVICE="container-${JACKETT_NAME}.service"
