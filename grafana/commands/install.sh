@@ -19,10 +19,17 @@ podman create \
   --env GF_SERVER_PROTOCOL=https \
   --env GF_SERVER_CERT_KEY=/run/secrets/$GRAFANA_DOMAIN.key \
   --env GF_SERVER_CERT_FILE=/run/secrets/$GRAFANA_DOMAIN.crt \
-  --env GF_INSTALL_PLUGINS="https://github.com/performancecopilot/grafana-pcp/releases/download/v3.2.1/performancecopilot-pcp-app-3.2.1.zip;grafana-pcp" \
   --secret ${GRAFANA_DOMAIN}.crt \
   --secret ${GRAFANA_DOMAIN}.key \
   quay.io/bitnami/grafana
+
+
+# Add the PCP plugin
+wget https://github.com/performancecopilot/grafana-pcp/releases/download/v3.2.1/performancecopilot-pcp-app-3.2.1.zip
+unzip -d /tmp/pcp-plugin performancecopilot-pcp-app-3.2.1.zip 
+podman cp /tmp/pcp-plugin/* ${GRAFANA_NAME}:/var/lib/grafana/plugins/
+rm -rf /tmp/pcp-plugin
+rm -rf /performancecopilot-pcp-app-3.2.1.zip
 
 
 # Create a systemd service
