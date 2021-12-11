@@ -9,8 +9,8 @@ C = "US"
 ST = "Oregon"
 L = "Bend"
 O = "Myrick Home"
-OU = "Department of Collection"
-CN = "mullvad-vpn.arrr.caladan.home"
+OU = "Department of Administration"
+CN = "organizr.admin.caladan.home"
 emailAddress = "admin@myrick.home"
 
 [v3_req]
@@ -19,6 +19,4 @@ extendedKeyUsage = serverAuth, clientAuth
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = mullvad-vpn.arrr.caladan.home
-DNS.2 = qbittorrent.arrr.caladan.home
-DNS.3 = sonarr.arrr.caladan.home
+DNS.1 = organizr.admin.caladan.home

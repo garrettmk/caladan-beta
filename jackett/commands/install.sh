@@ -6,9 +6,6 @@ set -e
 # Make sure the admin network exists
 host/commands/make-podman-network.sh ${JACKETT_NETWORK}
 
-# Create SSL keys
-#jackett/commands/install-jackett-cert.sh
-
 # Configure the container
 echo "Configuring container..."
 podman create \
@@ -26,15 +23,7 @@ podman create \
 
 # Create a systemd service
 echo "Creating systemd service..."
-podman generate systemd \
-  --name \
-  --files \
-  $JACKETT_NAME
-
-mv $JACKETT_SERVICE /etc/systemd/system
-restorecon /etc/systemd/system/$JACKETT_SERVICE
-systemctl daemon-reload
-systemctl enable $JACKETT_SERVICE
+host/commands/make-container-service.sh ${JACKETT_NAME}
 
 # Start the service
 echo "Starting $JACKETT_SERVICE..."

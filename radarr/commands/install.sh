@@ -3,11 +3,8 @@ source ./env.sh
 set -e
 
 
-# Make sure the admin network exists
-#host/commands/make-podman-network.sh ${RADARR_NETWORK}
-
-# Create SSL keys
-radarr/commands/install-radarr-cert.sh
+# Ensure the network exists
+host/commands/make-podman-network ${RADARR_NETWORK}
 
 # Configure the container
 echo "Configuring container..."
@@ -21,21 +18,12 @@ podman create \
   --env PUID=${RADARR_UID} \
   --env PGID=${RADARR_GID} \
   --env UMASK=022 \
-  --env TZ=America/Los_Angeles \
-  --secret ${RADARR_DOMAIN}.p12 \
+  --env TZ=${HOST_TZ} \
   docker.io/linuxserver/radarr
 
 # Create a systemd service
 echo "Creating systemd service..."
-podman generate systemd \
-  --name \
-  --files \
-  $RADARR_NAME
-
-mv $RADARR_SERVICE /etc/systemd/system
-restorecon /etc/systemd/system/$RADARR_SERVICE
-systemctl daemon-reload
-systemctl enable $RADARR_SERVICE
+host/commands/make-container-service.sh $RADARR_NAME
 
 # Start the service
 echo "Starting $RADARR_SERVICE..."
@@ -43,7 +31,7 @@ systemctl start $RADARR_SERVICE
 
 # Create the nginx config
 echo "Enabling $RADARR_HOST_DOMAIN..."
-envsubst '${RADARR_DOMAIN} ${RADARR_HOST_DOMAIN}' < radarr/config/radarr.nginx.conf > /etc/nginx/conf.d/radarr.conf
+envsubst '${RADARR_DOMAIN} ${RADARR_HOST_DOMAIN}' < radarr/config/radarr.nginx.conf > /etc/nginx/conf.d/${RADARR_HOST_DOMAIN}.conf
 systemctl restart nginx.service
 
 # Done

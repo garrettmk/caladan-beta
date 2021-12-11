@@ -27,19 +27,11 @@ rm -rf /tmp/vpn
 
 # Create systemd service
 echo "Creating systemd service..."
-podman generate systemd \
-  --name \
-  --files \
-  ${MULLVAD_NAME}
-
-mv $MULLVAD_SERVICE /etc/systemd/system
-restorecon /etc/systemd/system/$MULLVAD_SERVICE
-systemctl daemon-reload
-systemctl enable $MULLVAD_SERVICE
+host/commands/make-container-service.sh ${MULLVAD_NAME}
 
 # Start the service
 echo "Starting ${MULLVAD_SERVICE}..."
-systemctl start ${MULLVAD_SERVICE}
+systemctl enable --now ${MULLVAD_SERVICE}
 
 # Yay
 echo "Great success!!"

@@ -6,9 +6,6 @@ set -e
 # Make sure the admin network exists
 host/commands/make-podman-network.sh ${SONARR_NETWORK}
 
-# Create SSL keys
-#sonarr/commands/install-sonarr-cert.sh
-
 # Configure the container
 echo "Configuring container..."
 podman create \
@@ -26,15 +23,7 @@ podman create \
 
 # Create a systemd service
 echo "Creating systemd service..."
-podman generate systemd \
-  --name \
-  --files \
-  $SONARR_NAME
-
-mv $SONARR_SERVICE /etc/systemd/system
-restorecon /etc/systemd/system/$SONARR_SERVICE
-systemctl daemon-reload
-systemctl enable $SONARR_SERVICE
+host/commands/make-container-service.sh ${SONARR_NAME}
 
 # Start the service
 echo "Starting $SONARR_SERVICE..."

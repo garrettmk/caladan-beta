@@ -1,5 +1,31 @@
 #!/bin/bash
 
+######################################
+## Utility functions
+
+# Add or update a podman secret
+podman_secret_upsert() {
+  local NAME=$1
+  local FILE=$2
+
+  if [ ! -z "$(podman secret ls | grep ${NAME})" ]; then
+    podman secret rm ${NAME}
+  fi
+
+  podman secret create ${NAME} ${FILE}
+}
+
+
+# If a network name starts with "container:", echo
+# the name of the container
+network_container_name() {
+  NETWORK_NAME=$1
+  if [[ $NETWORK_NAME =~ ^container:.*$ ]]; then
+    SPLIT_NAME=(${NETWORK_NAME//:/ })
+    CONTAINER_NAME=${SPLIT_NAME[1]}
+    echo $CONTAINER_NAME
+  fi
+}
 
 ######################################  
 ## Host settings
@@ -103,7 +129,7 @@ export MEDIA_GROUP_ID=$(cat /etc/group | grep "media" | awk -F\: '{print $3}')
 
 export QBITTORRENT_NAME="qbittorrent"
 
-id ${QBITTORRENT_NAME}
+id ${QBITTORRENT_NAME} > /dev/null
 if [ $? != 0 ]; then
   useradd -M -N -s /dev/null -G media ${QBITTORRENT_NAME}
 fi
@@ -123,7 +149,7 @@ export QBITTORRENT_GID=${MEDIA_GROUP_ID}
 ## Jellyfin
 
 export JELLYFIN_NAME="jellyfin"
-id ${JELLYFIN_NAME}
+id ${JELLYFIN_NAME} > /dev/null
 if [ $? != 0 ]; then
   useradd -M -N -s /dev/null -G media ${JELLYFIN_NAME}
 fi
@@ -142,7 +168,7 @@ export JELLYFIN_SERVICE="container-${JELLYFIN_NAME}.service"
 ## Radarr
 
 export RADARR_NAME="radarr"
-id ${RADARR_NAME}
+id ${RADARR_NAME} > /dev/null
 if [ $? != 0 ]; then
   useradd -M -N -s /dev/null -G media ${RADARR_NAME}
 fi
@@ -164,7 +190,7 @@ export RADARR_SERVICE="container-${RADARR_NAME}.service"
 ## Sonarr
 
 export SONARR_NAME="sonarr"
-id ${SONARR_NAME}
+id ${SONARR_NAME} > /dev/null
 if [ $? != 0 ]; then
   useradd -M -N -s /dev/null -G media ${SONARR_NAME}
 fi
@@ -186,7 +212,7 @@ export SONARR_SERVICE="container-${SONARR_NAME}.service"
 ## Jackett
 
 export JACKETT_NAME="jackett"
-id ${JACKETT_NAME}
+id ${JACKETT_NAME} > /dev/null
 if [ $? != 0 ]; then
   useradd -M -N -s /dev/null -G media ${JACKETT_NAME}
 fi
@@ -210,3 +236,14 @@ export FLARESOLVERR_VOLUME_CONFIG="${FLARESOLVERR_NAME}-config"
 export FLARESOLVERR_DOMAIN="${MULLVAD_NAME}.${MULLVAD_NETWORK}.${HOST_DOMAIN}"
 export FLARESOLVERR_HOST_DOMAIN="${FLARESOLVERR_NAME}.${HOST_DOMAIN}"
 export FLARESOLVERR_SERVICE="container-${FLARESOLVERR_NAME}.service"
+
+
+######################################
+## Organizr
+
+export ORGANIZR_NAME="organizr"
+export ORGANIZR_NETWORK="admin"
+export ORGANIZR_VOLUME_CONFIG="${ORGANIZR_NAME}-config"
+export ORGANIZR_DOMAIN="${ORGANIZR_NAME}.${ORGANIZR_NETWORK}.${HOST_DOMAIN}"
+export ORGANIZR_HOST_DOMAIN="${ORGANIZR_NAME}.${HOST_DOMAIN}"
+export ORGANIZR_SERVICE="container-${ORGANIZR_NAME}.service"

@@ -3,6 +3,9 @@ source ./env.sh
 set -e
 
 
+# Ensure the network exists
+host/commands/make-podman-network.sh ${QBITTORRENT_NETWORK}
+
 # Configure the container
 echo "Configuring container..."
 podman create \
@@ -21,25 +24,15 @@ podman create \
 
 # Create systemd service
 echo "Creating systemd service..."
-podman generate systemd \
-  --name \
-  --files \
-  ${QBITTORRENT_NAME}
-
-mv $QBITTORRENT_SERVICE /etc/systemd/system
-restorecon /etc/systemd/system/$QBITTORRENT_SERVICE
-systemctl daemon-reload
-systemctl enable $QBITTORRENT_SERVICE
-
+host/commands/make-container-service.sh ${QBITTORRENT_NAME}
 
 # Start the service
 echo "Starting ${QBITTORRENT_SERVICE}..."
 systemctl start ${QBITTORRENT_SERVICE}
 
-
 # Create the nginx config
 echo "Enabling ${QBITTORRENT_HOST_DOMAIN}..."
-envsubst '${QBITTORRENT_DOMAIN} ${QBITTORRENT_HOST_DOMAIN}' < qbittorrent/config/qbittorrent.nginx.conf > /etc/nginx/conf.d/qbittorrent.conf
+envsubst '${QBITTORRENT_DOMAIN} ${QBITTORRENT_HOST_DOMAIN}' < qbittorrent/config/qbittorrent.nginx.conf > /etc/nginx/conf.d/${QBITTORRENT_HOST_DOMAIN}.conf
 systemctl restart nginx.service
 
 # Yay

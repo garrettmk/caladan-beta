@@ -6,9 +6,6 @@ set -e
 # Make sure the admin network exists
 host/commands/make-podman-network.sh ${FLARESOLVERR_NETWORK}
 
-# Create SSL keys
-#flaresolverr/commands/install-flaresolverr-cert.sh
-
 # Configure the container
 echo "Configuring container..."
 podman create \
@@ -23,15 +20,7 @@ podman create \
 
 # Create a systemd service
 echo "Creating systemd service..."
-podman generate systemd \
-  --name \
-  --files \
-  $FLARESOLVERR_NAME
-
-mv $FLARESOLVERR_SERVICE /etc/systemd/system
-restorecon /etc/systemd/system/$FLARESOLVERR_SERVICE
-systemctl daemon-reload
-systemctl enable $FLARESOLVERR_SERVICE
+host/commands/make-container-service.sh ${FLARESOLVERR_NAME}
 
 # Start the service
 echo "Starting $FLARESOLVERR_SERVICE..."
