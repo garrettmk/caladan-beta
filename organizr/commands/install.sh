@@ -20,15 +20,7 @@ podman create \
 
 # Create a systemd service
 echo "Creating systemd service..."
-podman generate systemd \
-  --name \
-  --files \
-  $ORGANIZR_NAME
-
-mv $ORGANIZR_SERVICE /etc/systemd/system
-restorecon /etc/systemd/system/$ORGANIZR_SERVICE
-systemctl daemon-reload
-systemctl enable $ORGANIZR_SERVICE
+host/commands/make-container-service.sh ${ORGANIZR_NAME}
 
 # Start the service
 echo "Starting $ORGANIZR_SERVICE..."

@@ -4,7 +4,7 @@ set -e
 
 
 # Ensure the network exists
-host/commands/make-podman-network ${RADARR_NETWORK}
+host/commands/make-podman-network.sh ${RADARR_NETWORK}
 
 # Configure the container
 echo "Configuring container..."
