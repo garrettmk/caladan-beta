@@ -1,0 +1,13 @@
+[Unit]
+Description=${DESCRIPTION} hotplug service
+BindsTo=dev-${TAG}.device
+After=dev-${TAG}.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/usb-vm-hotplug.sh ${SLOT} attach ${TAG}
+ExecStop=/usr/local/bin/usb-vm-hotplug.sh ${SLOT} detach ${TAG}
+
+[Install]
+WantedBy=multi-user.target
