@@ -27,6 +27,21 @@ network_container_name() {
   fi
 }
 
+
+# Get the bus number, device number, vendor ID and product ID of a USB device
+usb_device_ids() {
+  MATCH=$1
+  echo $(lsusb | awk -F'[ :]' "/${MATCH}/ { print \$2+0,\$4+0,\$7,\$8 }")
+}
+
+
+# Get the friendly description of a USB device
+usb_device_description() {
+  MATCH=$1
+  echo $(lsusb | awk "/${MATCH}/ { for(i=7;i<=NF;i++){ printf \"%s%s\", \$i, (i < NF ? OFS : \"\") } }")
+}
+
+
 ######################################  
 ## Host settings
 
