@@ -1,0 +1,27 @@
+# Device blocks contain key-value pairs that help select events
+devices:
+  keyboard:
+    properties:
+      ID_VENDOR_ID: 04d9
+      ID_MODEL_ID: 0169 
+
+# Slots are lists of machines
+slots:
+  slot1:
+    machines:
+      - Gnome
+      - Regolith
+      - Main
+      - Homework
+    devices:
+      properties:
+        BUSNUM: "001"
+  
+  slot2:
+    machines:
+      - MainKDE
+      - Gaming
+      - Anonymous
+    devices:
+      properties:
+        BUSNUM: "005"
