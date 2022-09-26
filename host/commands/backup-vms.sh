@@ -6,8 +6,7 @@ BACKUP_HOST="fractal.home"
 BACKUP_PATH="/mnt/backup/vm"
 
 # The VM domains we are going to back up
-# declare -a BACKUP_DOMAINS=("Gaming" "Homework" "Fedora" "Gnome" "Music")
-declare -a BACKUP_DOMAINS=("Gnome" "Music")
+declare -a BACKUP_DOMAINS=("Gaming" "Homework" "Fedora" "Gnome" "Music")
 
 
 # For each domain, make a a copy of the definition XML
